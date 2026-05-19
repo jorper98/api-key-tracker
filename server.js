@@ -2,11 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
+const archiver = require('archiver');
 const store = require('./src/store');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 
 app.use(cors());
 app.use(express.json());
@@ -22,7 +24,7 @@ if (!data.migrated) {
 
 // Middleware to get current file name from header
 function getFileName(req) {
-  return req.headers['x-keys-file'] || store.getDataFiles()[0]?.name;
+  return req.headers['x-keys-file'] || req.query.file || store.getDataFiles()[0]?.name;
 }
 
 // ===== FILE MANAGEMENT =====
@@ -277,6 +279,45 @@ app.get('/api/export', (req, res) => {
   }
 });
 
+app.get('/api/export-zip', (req, res) => {
+  try {
+    const fileName = getFileName(req);
+    if (!fileName) return res.status(400).json({ error: 'No keys file selected' });
+
+    const data = store.decryptKeys(store.loadData(fileName), fileName);
+    const secretName = `ENCRYPTION_SECRET_${fileName.toUpperCase().replace(/[^A-Z0-9]/g, '_')}`;
+    const secrets = store.loadSecrets();
+    const secret = secrets[secretName] || process.env[secretName] || '';
+
+    const archive = new archiver.ZipArchive({ zlib: { level: 9 } });
+
+    archive.on('error', (err) => {
+      if (!res.headersSent) {
+        res.status(500).json({ error: err.message });
+      }
+    });
+
+    archive.on('warning', (err) => {
+      console.error('Archive warning:', err.message);
+    });
+
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}-keys-export.zip"`);
+
+    archive.pipe(res);
+
+    archive.append(JSON.stringify(data, null, 2), { name: `${fileName}-keys.json` });
+    archive.append(`# Encryption Secret for ${fileName}-keys.json\n# Keep this file secure!\n${secretName}=${secret}\n`, { name: `${fileName}-secret.env` });
+
+    archive.finalize();
+  } catch (err) {
+    console.error('Export zip error:', err.message);
+    if (!res.headersSent) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+});
+
 app.post('/api/import', (req, res) => {
   try {
     const fileName = getFileName(req);
@@ -299,7 +340,7 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   const files = store.getDataFiles();
   console.log('='.repeat(50));
-  console.log('  API Key Management Tracker');
+  console.log('  API Key Tracker');
   console.log(`  Version: v${VERSION}`);
   console.log(`  Available keys files: ${files.map(f => f.name).join(', ') || 'none'}`);
   console.log(`  Server running at http://localhost:${PORT}`);

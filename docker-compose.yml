@@ -1,6 +1,7 @@
 services:
   api-key-tracker:
     build: .
+    image: api-key-tracker
     container_name: api-key-tracker
     restart: unless-stopped
     ports:

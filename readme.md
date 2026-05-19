@@ -1,4 +1,4 @@
-# API Key Management Tracker
+# API Key Tracker
 
 A Node.js web application to track vendor accounts and API keys with encryption at rest.
 
@@ -7,10 +7,12 @@ A Node.js web application to track vendor accounts and API keys with encryption 
 - **Three Normalized Tables**: Vendors, Accounts, and Keys
 - **Vendor Account Management**: CRUD operations for vendor accounts with auth type, billing setup, and notes
 - **API Key Management**: Track API keys linked to accounts with status, project, and purpose
-- **Encryption at Rest**: All API keys are encrypted using AES-256-CBC in the data file
+- **Multiple Keys Files**: Create, switch between, and manage multiple `<name>-keys.json` datasets
+- **Per-File Encryption**: Each keys file has its own unique AES-256-CBC encryption key
 - **Search & Filter**: Full-text search across all fields, filter by vendor, account, status, and project
 - **One-Click Copy**: Copy button for all API keys
-- **Dark Theme**: Professional dark UI
+- **Dark/Light Theme**: Toggle between dark and light mode (top right corner)
+- **Zip Export**: Export decrypted data and encryption key as a zip file for backup/migration
 
 ## Requirements
 
@@ -131,12 +133,13 @@ The `PORT` value in `.env` (or the default 3000) must match the **container port
 | PUT | /api/keys/:id | Update key |
 | DELETE | /api/keys/:id | Delete key |
 | POST | /api/decrypt | Decrypt a key for display |
-| GET | /api/export | Export all data |
+| GET | /api/export | Export all data (JSON) |
 | POST | /api/import | Import data |
+| GET | /api/export-zip | Export decrypted data + encryption key as zip |
 
 ## Version
 
-v1.0.0
+v1.1.1
 
 ## License
 

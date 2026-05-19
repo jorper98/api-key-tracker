@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.1 - 2026-05-18
+
+- Fixed zip export to use currently selected keys file
+- Added light/dark theme toggle (top right)
+- Action icons unified in grey (delete remains red on hover)
+- Archiver API compatibility fix for zip export
+- Export warning dialog for unencrypted keys
+
 ## v1.1.0 - 2026-05-18
 
 - Multiple keys file support (`<name>-keys.json`)

@@ -5,6 +5,7 @@ let keys = [];
 let currentFile = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   initFileSelector();
   initTabs();
   initVendorsTable();
@@ -16,6 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initKeyDetailModal();
   initFilters();
 });
+
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+}
 
 async function initFileSelector() {
   const res = await fetch('/api/files');
@@ -116,6 +129,21 @@ async function initFileSelector() {
         return res.json().then(err => alert(err.error || 'Failed to create file'));
       }
     }).catch(err => alert('Failed to create file'));
+  });
+  
+  document.getElementById('export-zip-btn').addEventListener('click', () => {
+    if (!currentFile) {
+      alert('No keys file selected');
+      return;
+    }
+    const proceed = confirm('WARNING: The exported zip file will contain your API keys in unencrypted clear text.\n\nStore this file securely and delete it after use.\n\nDo you want to proceed?');
+    if (!proceed) return;
+    const link = document.createElement('a');
+    link.href = `/api/export-zip?file=${currentFile}`;
+    link.download = `${currentFile}-keys-export.zip`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   });
 }
 

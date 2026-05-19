@@ -220,4 +220,4 @@ function migrateOldFormat(data) {
   };
 }
 
-module.exports = { loadData, saveData, encryptKeys, decryptKeys, decryptSingleKey, getSecret, migrateOldFormat, getDataFiles, createNewFile, deleteFile, getDefaultFilePath };
+module.exports = { loadData, saveData, encryptKeys, decryptKeys, decryptSingleKey, getSecret, migrateOldFormat, getDataFiles, createNewFile, deleteFile, getDefaultFilePath, loadSecrets };
