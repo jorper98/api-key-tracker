@@ -1,0 +1,147 @@
+# API Key Management Tracker
+
+A Node.js web application to track vendor accounts and API keys with encryption at rest.
+
+## Features
+
+- **Three Normalized Tables**: Vendors, Accounts, and Keys
+- **Vendor Account Management**: CRUD operations for vendor accounts with auth type, billing setup, and notes
+- **API Key Management**: Track API keys linked to accounts with status, project, and purpose
+- **Encryption at Rest**: All API keys are encrypted using AES-256-CBC in the data file
+- **Search & Filter**: Full-text search across all fields, filter by vendor, account, status, and project
+- **One-Click Copy**: Copy button for all API keys
+- **Dark Theme**: Professional dark UI
+
+## Requirements
+
+- Node.js 16 or higher
+
+## Installation
+
+```bash
+npm install
+```
+
+## Usage
+
+### Start the Server
+```bash
+node server.js
+```
+The application will start at http://localhost:3000
+
+### Stop the Server
+Press `Ctrl+C` in the terminal window where the server is running.
+
+On Windows PowerShell, you can also kill the server with:
+```powershell
+Get-Process node | Stop-Process -Force
+```
+
+## Data Storage
+
+### Keys Files
+Data is stored in multiple keys files in the `data/` directory (e.g., `data/default-keys.json`, `data/sample-keys.json`). You can create, switch between, and manage multiple keys files from the application UI.
+
+### Secrets File (`.secrets.json`)
+The `data/.secrets.json` file stores the unique AES-256 encryption key for each keys file. It is a JSON file with the following format:
+
+```json
+{
+  "ENCRYPTION_SECRET_DEFAULT": "hex_key_here",
+  "ENCRYPTION_SECRET_SAMPLE": "hex_key_here",
+  "ENCRYPTION_SECRET_<NAME>": "hex_key_here"
+}
+```
+
+**What it does:**
+- Each keys file (e.g., `default-keys.json`) has its own unique encryption key stored in `.secrets.json`
+- When you create a new keys file, a new encryption key is automatically generated and saved to `.secrets.json`
+- When you delete a keys file, its encryption key is removed from `.secrets.json`
+- All API keys are encrypted at rest using AES-256-CBC with the file's specific key
+
+**What it is NOT:**
+- It is NOT a backup of your API keys — it only stores the encryption keys
+- It does NOT contain your actual API key values
+
+**Backup:** This file is critical. Without it, all encrypted API keys in your keys files become unrecoverable.
+
+**Security:** The `data/` directory is excluded from git via `.gitignore`, so `.secrets.json` is never committed to version control.
+
+**Important**: Always backup both your `.secrets.json` file and your keys files!
+
+## Port Configuration
+
+The application listens on port 3000 by default. This can be configured in two places:
+
+### Local Development
+Set the port in `.env`:
+```
+PORT=3000
+```
+
+### Docker
+In `docker-compose.yml`, the `ports` mapping defines how the container port maps to your host:
+```yaml
+ports:
+  - "3000:3000"
+```
+The format is `"HOST_PORT:CONTAINER_PORT"`. This forwards traffic from port 3000 on your machine to port 3000 inside the container.
+
+The `PORT` value in `.env` (or the default 3000) must match the **container port** in the `ports` mapping. If you change `.env` to `PORT=5000`, update docker-compose to `ports: "3000:5000"` to keep it accessible at `localhost:3000`.
+
+## Docker Usage
+
+### Vendors
+- Vendor Name
+- Website
+
+### Accounts
+- Account Name (auto-generated as "Vendor (email)" by default)
+- Vendor (dropdown)
+- Account Email
+- Vendor AccID (optional)
+- AuthType
+- Billing Setup
+- Notes
+
+### Keys
+- Status (Active/Inactive)
+- Account (dropdown)
+- Project (optional)
+- Name (optional)
+- Date Created
+- Purpose/Notes
+- API Key (encrypted at rest)
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/vendors | List all vendors |
+| POST | /api/vendors | Create vendor |
+| PUT | /api/vendors/:id | Update vendor |
+| DELETE | /api/vendors/:id | Delete vendor |
+| GET | /api/accounts | List all accounts |
+| POST | /api/accounts | Create account |
+| PUT | /api/accounts/:id | Update account |
+| DELETE | /api/accounts/:id | Delete account |
+| GET | /api/keys | List all keys |
+| POST | /api/keys | Create key |
+| PUT | /api/keys/:id | Update key |
+| DELETE | /api/keys/:id | Delete key |
+| POST | /api/decrypt | Decrypt a key for display |
+| GET | /api/export | Export all data |
+| POST | /api/import | Import data |
+
+## Version
+
+v1.0.0
+
+## License
+
+MIT
+
+## Author
+
+By Jorge Pereira (35sites.com LLC) - [35sites.com](https://35sites.com/)

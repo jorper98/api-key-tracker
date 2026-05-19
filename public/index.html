@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' https://code.jquery.com https://cdn.datatables.net; style-src 'self' 'unsafe-inline' https://cdn.datatables.net; img-src 'self' data:;">
+  <title>API Key Management Tracker</title>
+  <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-content">
+      <h1>API Key Management Tracker</h1>
+      <span class="version">v1.1.0</span>
+    </div>
+    <div class="header-right">
+      <select id="file-selector" class="file-selector" aria-label="Select keys file">
+        <option value="">Loading files...</option>
+      </select>
+      <button id="new-file-btn" class="btn btn-sm" title="Create new keys file">+ New</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="vendors">Vendors</button>
+    <button class="tab" data-tab="accounts">Accounts</button>
+    <button class="tab" data-tab="keys">Keys</button>
+  </nav>
+
+  <main class="container">
+    <!-- Vendors Tab -->
+    <div id="vendors-tab" class="tab-content active">
+      <div class="toolbar">
+        <button id="add-vendor-btn" class="btn btn-primary">+ Add Vendor</button>
+        <div class="filters">
+          <input type="text" id="vendor-search" placeholder="Search vendors..." class="search-input" aria-label="Search vendors">
+        </div>
+      </div>
+      <table id="vendors-table" class="display">
+        <thead>
+          <tr>
+            <th>Vendor Name</th>
+            <th>Website</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Accounts Tab -->
+    <div id="accounts-tab" class="tab-content">
+      <div class="toolbar">
+        <button id="add-account-btn" class="btn btn-primary">+ Add Account</button>
+        <div class="filters">
+          <select id="filter-account-vendor" class="filter-select" aria-label="Filter by vendor">
+            <option value="">All Vendors</option>
+          </select>
+          <input type="text" id="account-search" placeholder="Search accounts..." class="search-input" aria-label="Search accounts">
+        </div>
+      </div>
+      <table id="accounts-table" class="display">
+        <thead>
+          <tr>
+            <th>Account Name</th>
+            <th>Vendor</th>
+            <th>Email</th>
+            <th>Vendor AccID</th>
+            <th>AuthType</th>
+            <th>Billing</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Keys Tab -->
+    <div id="keys-tab" class="tab-content">
+      <div class="toolbar">
+        <button id="add-key-btn" class="btn btn-primary">+ Add API Key</button>
+        <div class="filters">
+          <select id="filter-key-vendor" class="filter-select" aria-label="Filter by vendor">
+            <option value="">All Vendors</option>
+          </select>
+          <select id="filter-key-account" class="filter-select" aria-label="Filter by account">
+            <option value="">All Accounts</option>
+          </select>
+          <select id="filter-status" class="filter-select" aria-label="Filter by status">
+            <option value="">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          <input type="text" id="filter-project" placeholder="Filter by Project..." class="search-input" aria-label="Filter by project">
+          <input type="text" id="key-search" placeholder="Search keys..." class="search-input" aria-label="Search keys">
+        </div>
+      </div>
+      <table id="keys-table" class="display">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Account</th>
+            <th>Project</th>
+            <th>Date Created</th>
+            <th style="display:none">Purpose</th>
+            <th>API Key</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Vendor Modal -->
+  <div id="vendor-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="vendor-modal-title">Add Vendor</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="vendor-form">
+        <input type="hidden" id="vendor-id">
+        <div class="form-group">
+          <label for="vendor-name">Vendor Name *</label>
+          <input type="text" id="vendor-name" required>
+        </div>
+        <div class="form-group">
+          <label for="vendor-website">Website</label>
+          <input type="url" id="vendor-website" placeholder="https://example.com">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Account Modal -->
+  <div id="account-modal" class="modal">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2 id="account-modal-title">Add Account</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="account-form">
+        <input type="hidden" id="account-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="account-vendor">Vendor *</label>
+            <select id="account-vendor" required>
+              <option value="">-- Select Vendor --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="account-auth-type">AuthType</label>
+            <select id="account-auth-type">
+              <option value="Password">Password</option>
+              <option value="GoogleAuth">GoogleAuth</option>
+              <option value="Email">Email</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="account-email">Account Email *</label>
+            <input type="email" id="account-email" required>
+          </div>
+          <div class="form-group">
+            <label for="account-billing">Billing Setup</label>
+            <select id="account-billing">
+              <option value="No Billing">No Billing</option>
+              <option value="Credit Card">Credit Card</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="account-name">Account Name (optional, defaults to Vendor + Email)</label>
+          <input type="text" id="account-name" placeholder="Leave blank for auto-generated name">
+        </div>
+        <div class="form-group">
+          <label for="account-acc-id">Vendor AccID (Optional)</label>
+          <input type="text" id="account-acc-id">
+        </div>
+        <div class="form-group">
+          <label for="account-notes">Notes</label>
+          <textarea id="account-notes" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Key Modal -->
+  <div id="key-modal" class="modal">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2 id="key-modal-title">Add API Key</h2>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form id="key-form">
+        <input type="hidden" id="key-id">
+        <input type="hidden" id="key-encrypted">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="key-status">Status</label>
+            <select id="key-status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="key-account">Account *</label>
+            <select id="key-account" required>
+              <option value="">-- Select Account --</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="key-project">Project (Optional)</label>
+            <input type="text" id="key-project">
+          </div>
+          <div class="form-group">
+            <label for="key-name">Name (Optional)</label>
+            <input type="text" id="key-name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="key-date">Date Created</label>
+          <input type="date" id="key-date">
+        </div>
+        <div class="form-group">
+          <label for="key-purpose">Purpose/Notes</label>
+          <textarea id="key-purpose" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="key-value">API Key *</label>
+          <div class="input-with-copy">
+            <input type="text" id="key-value" required>
+            <button type="button" id="copy-new-key" class="btn btn-sm" title="Copy key">Copy</button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Key Detail Modal -->
+  <div id="key-detail-modal" class="modal">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h2 id="key-detail-title">API Key</h2>
+        <button class="close-btn" id="key-detail-close">&times;</button>
+      </div>
+      <div class="form-group">
+        <label>Full API Key</label>
+        <div class="input-with-copy">
+          <input type="text" id="key-detail-value" readonly class="key-detail-input">
+          <button type="button" id="copy-detail-key" class="btn btn-sm">Copy</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Account</label>
+        <input type="text" id="key-detail-account" readonly class="key-detail-input">
+      </div>
+      <div class="form-group">
+        <label>Project</label>
+        <input type="text" id="key-detail-project" readonly class="key-detail-input">
+      </div>
+      <div class="form-group">
+        <label>Purpose/Notes</label>
+        <input type="text" id="key-detail-purpose" readonly class="key-detail-input">
+      </div>
+    </div>
+  </div>
+
+  <!-- Startup File Selection Modal -->
+  <div id="file-select-modal" class="modal active">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Select Keys File</h2>
+      </div>
+      <div class="form-group">
+        <label for="startup-file-select">Which keys file would you like to use?</label>
+        <select id="startup-file-select">
+          <option value="">Loading files...</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="new-file-name">Or create a new file:</label>
+        <input type="text" id="new-file-name" placeholder="Enter file name (e.g., project-x)">
+      </div>
+      <div class="form-actions">
+        <button type="button" id="use-file-btn" class="btn btn-primary">Use Selected</button>
+        <button type="button" id="create-file-btn" class="btn btn-secondary">Create New</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>By Jorge Pereira (35sites.com LLC) - <a href="https://35sites.com/" target="_blank" rel="noopener">35sites.com</a></p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

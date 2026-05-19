@@ -1,0 +1,212 @@
+{
+  "vendors": [
+    {
+      "id": "v_sample001",
+      "name": "Google Cloud",
+      "website": "https://cloud.google.com",
+      "createdAt": "2025-01-15T10:00:00.000Z",
+      "updatedAt": "2025-01-15T10:00:00.000Z"
+    },
+    {
+      "id": "v_sample002",
+      "name": "Amazon Web Services",
+      "website": "https://aws.amazon.com",
+      "createdAt": "2025-02-01T14:30:00.000Z",
+      "updatedAt": "2025-02-01T14:30:00.000Z"
+    },
+    {
+      "id": "v_sample003",
+      "name": "OpenAI",
+      "website": "https://platform.openai.com",
+      "createdAt": "2025-03-10T09:15:00.000Z",
+      "updatedAt": "2025-03-10T09:15:00.000Z"
+    },
+    {
+      "id": "v_sample004",
+      "name": "Stripe",
+      "website": "https://stripe.com",
+      "createdAt": "2025-04-05T16:45:00.000Z",
+      "updatedAt": "2025-04-05T16:45:00.000Z"
+    },
+    {
+      "id": "v_sample005",
+      "name": "Twilio",
+      "website": "https://www.twilio.com",
+      "createdAt": "2025-04-20T11:00:00.000Z",
+      "updatedAt": "2025-04-20T11:00:00.000Z"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "a_sample001",
+      "vendorId": "v_sample001",
+      "accountName": "GCP Production",
+      "accountEmail": "prod@example.com",
+      "vendorAccId": "gcp-prod-001",
+      "authType": "GoogleAuth",
+      "billingSetup": "Credit Card",
+      "notes": "Production environment account",
+      "createdAt": "2025-01-15T10:30:00.000Z",
+      "updatedAt": "2025-01-15T10:30:00.000Z"
+    },
+    {
+      "id": "a_sample002",
+      "vendorId": "v_sample001",
+      "accountName": "GCP Staging",
+      "accountEmail": "staging@example.com",
+      "vendorAccId": "gcp-staging-001",
+      "authType": "GoogleAuth",
+      "billingSetup": "Credit Card",
+      "notes": "Staging environment account",
+      "createdAt": "2025-01-16T10:30:00.000Z",
+      "updatedAt": "2025-01-16T10:30:00.000Z"
+    },
+    {
+      "id": "a_sample003",
+      "vendorId": "v_sample002",
+      "accountName": "AWS Root Account",
+      "accountEmail": "admin@example.com",
+      "vendorAccId": "aws-root-001",
+      "authType": "GoogleAuth",
+      "billingSetup": "Credit Card",
+      "notes": "Main AWS account",
+      "createdAt": "2025-02-01T15:00:00.000Z",
+      "updatedAt": "2025-02-01T15:00:00.000Z"
+    },
+    {
+      "id": "a_sample004",
+      "vendorId": "v_sample003",
+      "accountName": "OpenAI Org - Dev",
+      "accountEmail": "dev@example.com",
+      "vendorAccId": "org-dev-001",
+      "authType": "Email",
+      "billingSetup": "Credit Card",
+      "notes": "Development API access",
+      "createdAt": "2025-03-10T09:30:00.000Z",
+      "updatedAt": "2025-03-10T09:30:00.000Z"
+    },
+    {
+      "id": "a_sample005",
+      "vendorId": "v_sample004",
+      "accountName": "Stripe - Live",
+      "accountEmail": "payments@example.com",
+      "vendorAccId": "acct_live001",
+      "authType": "Password",
+      "billingSetup": "No Billing",
+      "notes": "Live payment processing",
+      "createdAt": "2025-04-05T17:00:00.000Z",
+      "updatedAt": "2025-04-05T17:00:00.000Z"
+    },
+    {
+      "id": "a_sample006",
+      "vendorId": "v_sample005",
+      "accountName": "Twilio - SMS",
+      "accountEmail": "sms@example.com",
+      "vendorAccId": "tw-sms-001",
+      "authType": "Password",
+      "billingSetup": "Credit Card",
+      "notes": "SMS notification service",
+      "createdAt": "2025-04-20T11:30:00.000Z",
+      "updatedAt": "2025-04-20T11:30:00.000Z"
+    }
+  ],
+  "keys": [
+    {
+      "id": "k_sample001",
+      "status": "Active",
+      "accountId": "a_sample001",
+      "project": "analytics-pipeline",
+      "name": "Analytics Service Key",
+      "dateCreated": "2025-01-20",
+      "purpose": "Used for analytics data pipeline processing",
+      "createdAt": "2025-01-20T08:00:00.000Z",
+      "updatedAt": "2025-01-20T08:00:00.000Z",
+      "encryptedKey": "cAwP+PRhKYQh1V8rtcyskA==:+49wzb2sf1vOyMIeU2WWZNxngGXJQKURDyDnhyo+QBfEppmz5aVdWb0VZudlCYOe"
+    },
+    {
+      "id": "k_sample002",
+      "status": "Active",
+      "accountId": "a_sample003",
+      "project": "web-app",
+      "name": "Web App Access Key",
+      "dateCreated": "2025-02-10",
+      "purpose": "S3 bucket access for web application assets",
+      "createdAt": "2025-02-10T12:00:00.000Z",
+      "updatedAt": "2025-02-10T12:00:00.000Z",
+      "encryptedKey": "vySZNVZN6TyyW6qF4DCYQQ==:YRnqBKTR2cwZOjLX5iWaEerpRe5k6YWGC/sD4PdpYtR4kCmjleTa4g/5AHcsrjbN"
+    },
+    {
+      "id": "k_sample003",
+      "status": "Active",
+      "accountId": "a_sample004",
+      "project": "chatbot",
+      "name": "Chatbot API Key",
+      "dateCreated": "2025-03-15",
+      "purpose": "OpenAI API access for customer chatbot",
+      "createdAt": "2025-03-15T10:00:00.000Z",
+      "updatedAt": "2025-03-15T10:00:00.000Z",
+      "encryptedKey": "DoAbtVhfy21EwRlMZBLdtw==:1p0HrrVOzVX7B9B5fF+vD9IdoKh4V9zwQ1r4e3vnd1UwA0nvO/rcLjz5qxbd2T5kYNTXfoQS+Oef4wahU+WtLQ=="
+    },
+    {
+      "id": "k_sample004",
+      "status": "Active",
+      "accountId": "a_sample005",
+      "project": "billing",
+      "name": "Stripe Live Secret Key",
+      "dateCreated": "2025-04-06",
+      "purpose": "Payment processing for live environment",
+      "createdAt": "2025-04-06T09:00:00.000Z",
+      "updatedAt": "2025-04-06T09:00:00.000Z",
+      "encryptedKey": "3TGAu+nRpPHWAKO0fIUz9A==:3+9DyyyhppCPAjcw8ZNBqv3cPb5T1EGZMnIzbbUrG5CWyL3p0+RGVAoLQ5Jm3BDJ"
+    },
+    {
+      "id": "k_sample005",
+      "status": "Inactive",
+      "accountId": "a_sample005",
+      "project": "billing-test",
+      "name": "Stripe Test Key (Deprecated)",
+      "dateCreated": "2025-04-01",
+      "purpose": "Old test key - replaced by new key",
+      "createdAt": "2025-04-01T09:00:00.000Z",
+      "updatedAt": "2025-04-10T09:00:00.000Z",
+      "encryptedKey": "HaA+XzQVdw7WdvqMNfzbLQ==:hqRw9BeJP97xViVHHZ1dt8B69xmMLe283MQqBADaYhQ="
+    },
+    {
+      "id": "k_sample006",
+      "status": "Active",
+      "accountId": "a_sample006",
+      "project": "notifications",
+      "name": "Twilio SMS Auth Token",
+      "dateCreated": "2025-04-21",
+      "purpose": "SMS notifications for user alerts and OTP",
+      "createdAt": "2025-04-21T14:00:00.000Z",
+      "updatedAt": "2025-04-21T14:00:00.000Z",
+      "encryptedKey": "pj8HYTPS5ahBdzq8HKvspg==:aoeaouSa6dJeskWFnjVvICq8i23uq4xo4broAyYc5MJsPjnNyzBPve3EwsQw+Is4"
+    },
+    {
+      "id": "k_sample007",
+      "status": "Active",
+      "accountId": "a_sample002",
+      "project": "ml-training",
+      "name": "Staging ML Key",
+      "dateCreated": "2025-05-01",
+      "purpose": "Machine learning model training in staging",
+      "createdAt": "2025-05-01T16:00:00.000Z",
+      "updatedAt": "2025-05-01T16:00:00.000Z",
+      "encryptedKey": "Ey/rAx67iplqzohOT7WHIA==:I8SrdAV2LI/I/bmqBQWAmSDkMpG9zM7pCNauBWtkgZH/+7vxCOlc7Lg5wJI3zTyC"
+    },
+    {
+      "id": "k_sample008",
+      "status": "Active",
+      "accountId": "a_sample003",
+      "project": "backup-service",
+      "name": "Backup Service Key",
+      "dateCreated": "2025-05-10",
+      "purpose": "Automated backup to S3 Glacier",
+      "createdAt": "2025-05-10T08:30:00.000Z",
+      "updatedAt": "2025-05-10T08:30:00.000Z",
+      "encryptedKey": "Sz/vTvt90CE6OJE7XVGkNA==:rHhut4yg1PHyeunCgizFISOU1kIdVxuuPamlIoNcVagJ/Ra9y5HEKosapyJ7pt1D"
+    }
+  ],
+  "migrated": true
+}
