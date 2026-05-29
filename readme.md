@@ -2,6 +2,10 @@
 
 A Node.js web application to track vendor accounts and API keys with encryption at rest.
 
+## Version
+
+v1.1.4
+
 ## Features
 
 - **Three Normalized Tables**: Vendors, Accounts, and Keys
@@ -92,6 +96,62 @@ The format is `"HOST_PORT:CONTAINER_PORT"`. This forwards traffic from port 3000
 
 The `PORT` value in `.env` (or the default 3000) must match the **container port** in the `ports` mapping. If you change `.env` to `PORT=5000`, update docker-compose to `ports: "3000:5000"` to keep it accessible at `localhost:3000`.
 
+## Docker
+
+### docker-compose.yml
+
+```yaml
+services:
+  api-key-tracker:
+    build: .
+    image: api-key-tracker
+    container_name: api-key-tracker
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+```
+
+### Start the Container
+```bash
+docker-compose up -d
+```
+
+### Stop the Container
+```bash
+docker-compose down
+```
+
+### Update (Rebuild) the Container
+
+When you update the application code, rebuild and restart the container:
+
+1. Stop the container:
+   ```bash
+   docker-compose down
+   ```
+
+2. Rebuild the image:
+   ```bash
+   docker-compose build --no-cache
+   ```
+
+3. Start the container:
+   ```bash
+   docker-compose up -d
+   ```
+
+Your data in the `data/` volume is preserved across rebuilds.
+
 ## Docker Usage
 
 ### Vendors
@@ -136,10 +196,6 @@ The `PORT` value in `.env` (or the default 3000) must match the **container port
 | GET | /api/export | Export all data (JSON) |
 | POST | /api/import | Import data |
 | GET | /api/export-zip | Export decrypted data + encryption key as zip |
-
-## Version
-
-v1.1.1
 
 ## License
 

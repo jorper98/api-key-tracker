@@ -12,7 +12,7 @@
   <header class="app-header">
     <div class="header-content">
       <h1>API Key Tracker</h1>
-      <span class="version">v1.1.1</span>
+      <span class="version">v1.1.4</span>
     </div>
     <div class="header-right">
       <select id="file-selector" class="file-selector" aria-label="Select keys file">
@@ -49,6 +49,7 @@
         <button id="add-vendor-btn" class="btn btn-primary">+ Add Vendor</button>
         <div class="filters">
           <input type="text" id="vendor-search" placeholder="Search vendors..." class="search-input" aria-label="Search vendors">
+          <button id="clear-vendor-filters" class="btn btn-secondary btn-sm" title="Clear filters and search">Clear Filters</button>
         </div>
       </div>
       <table id="vendors-table" class="display">
@@ -72,6 +73,7 @@
             <option value="">All Vendors</option>
           </select>
           <input type="text" id="account-search" placeholder="Search accounts..." class="search-input" aria-label="Search accounts">
+          <button id="clear-account-filters" class="btn btn-secondary btn-sm" title="Clear filters and search">Clear Filters</button>
         </div>
       </div>
       <table id="accounts-table" class="display">
@@ -107,8 +109,11 @@
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
-          <input type="text" id="filter-project" placeholder="Filter by Project..." class="search-input" aria-label="Filter by project">
+          <select id="filter-project" class="filter-select" aria-label="Filter by project">
+            <option value="">All Projects</option>
+          </select>
           <input type="text" id="key-search" placeholder="Search keys..." class="search-input" aria-label="Search keys">
+          <button id="clear-key-filters" class="btn btn-secondary btn-sm" title="Clear all filters and search">Clear Filters</button>
         </div>
       </div>
       <table id="keys-table" class="display">
@@ -117,6 +122,7 @@
             <th>Status</th>
             <th>Account</th>
             <th>Project</th>
+            <th>Name</th>
             <th>Date Created</th>
             <th style="display:none">Purpose</th>
             <th>API Key</th>

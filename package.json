@@ -1,6 +1,6 @@
 {
   "name": "api-key-tracker",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "API Key Tracker - Track vendor accounts and API keys with encryption",
   "main": "server.js",
   "scripts": {

@@ -1,34 +1,21 @@
 # Changelog
 
-## v1.1.1 - 2026-05-18
+## v1.1.4
+- Changed Project filter from text input to dropdown populated from unique project values
 
-- Fixed zip export to use currently selected keys file
-- Added light/dark theme toggle (top right)
-- Action icons unified in grey (delete remains red on hover)
-- Archiver API compatibility fix for zip export
-- Export warning dialog for unencrypted keys
+## v1.1.3
+- Added Name column to Keys tab (after Project)
+- Removed duplicate DataTables search boxes from all tabs
+- Added Clear Filters buttons to Vendors and Accounts tabs
 
-## v1.1.0 - 2026-05-18
+## v1.1.2
+- Enhanced Keys tab search to include Account, Project, Name, Purpose, and Notes fields
+- Added Clear Filters button to reset all filters and search on Keys tab
 
-- Multiple keys file support (`<name>-keys.json`)
-- Per-file unique encryption keys stored in `data/.secrets.json`
-- Startup file selection modal with dropdown
-- Top-right dropdown to switch between keys files
-- Create new keys files from UI
-- Encrypted sample data file (`sample-keys.json`) with sample secrets
-- Port configuration via `.env` and Docker Compose
-- Improved Windows file handling for secrets storage
-- Updated `.gitignore` for multi-file support
-
-## v1.0.0 - 2026-05-18
-
+## v1.1.1
 - Initial release
-- Vendor account management (CRUD)
-- API key management (CRUD)
-- AES-256-CBC encryption at rest for API keys
-- Full-text search across all fields
-- Filter by vendor, status, and project
-- One-click copy to clipboard for API keys
-- Dark theme UI
-- Export/Import data functionality
-- Auto-generated encryption key on first run
+- Vendor, Account, and API Key management
+- Encrypted API key storage
+- File-based data persistence
+- Export to zip functionality
+- Dark/Light theme support

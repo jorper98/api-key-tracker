@@ -8,7 +8,7 @@ const store = require('./src/store');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const VERSION = '1.1.1';
+const VERSION = '1.1.4';
 
 app.use(cors());
 app.use(express.json());

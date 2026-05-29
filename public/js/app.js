@@ -199,11 +199,17 @@ function initVendorsTable() {
     ],
     order: [[0, 'asc']],
     pageLength: 25,
+    dom: 'lrtip',
     language: { search: 'Search:' }
   });
 
   $('#vendor-search').on('keyup', function() {
     vendorsTable.search(this.value).draw();
+  });
+
+  $('#clear-vendor-filters').on('click', function() {
+    $('#vendor-search').val('');
+    vendorsTable.search('').draw();
   });
 
   $('#vendors-table tbody').on('click', '.btn-edit', (e) => {
@@ -278,11 +284,19 @@ function initAccountsTable() {
     ],
     order: [[1, 'asc']],
     pageLength: 25,
+    dom: 'lrtip',
     language: { search: 'Search:' }
   });
 
   $('#account-search').on('keyup', function() {
     accountsTable.search(this.value).draw();
+  });
+
+  $('#clear-account-filters').on('click', function() {
+    $('#account-search').val('');
+    $('#filter-account-vendor').val('');
+    accountsTable.search('').draw();
+    applyAccountFilters();
   });
 
   $('#accounts-table tbody').on('click', '.btn-edit', (e) => {
@@ -339,6 +353,7 @@ function initKeysTable() {
         return account ? account.accountName : d;
       }},
       { data: 'project', defaultContent: '' },
+      { data: 'name', defaultContent: '' },
       { data: 'dateCreated', defaultContent: '' },
       { 
         data: 'purpose',
@@ -386,13 +401,23 @@ function initKeysTable() {
         `
       }
     ],
-    order: [[3, 'desc']],
+    order: [[4, 'desc']],
     pageLength: 25,
+    dom: 'lrtip',
     language: { search: 'Search:' }
   });
 
   $('#key-search').on('keyup', function() {
-    keysTable.search(this.value).draw();
+    applyKeyFilters();
+  });
+
+  $('#clear-key-filters').on('click', function() {
+    $('#key-search').val('');
+    $('#filter-key-vendor').val('');
+    $('#filter-key-account').val('');
+    $('#filter-status').val('');
+    $('#filter-project').val('');
+    applyKeyFilters();
   });
 
   $('#keys-table tbody').on('click', '.btn-edit', (e) => {
@@ -475,6 +500,7 @@ async function loadKeys() {
     keysTable.clear();
     keysTable.rows.add(keys);
     keysTable.draw();
+    updateProjectDropdowns();
   } catch (err) {
     console.error('Failed to load keys:', err);
   }
@@ -506,6 +532,13 @@ function updateAccountDropdowns() {
   const filterOptions = '<option value="">All Accounts</option>' + 
     sorted.map(a => `<option value="${a.id}">${a.accountName}</option>`).join('');
   document.getElementById('filter-key-account').innerHTML = filterOptions;
+}
+
+function updateProjectDropdowns() {
+  const projects = [...new Set(keys.map(k => k.project).filter(p => p))].sort((a, b) => a.localeCompare(b));
+  const options = '<option value="">All Projects</option>' + 
+    projects.map(p => `<option value="${p}">${p}</option>`).join('');
+  document.getElementById('filter-project').innerHTML = options;
 }
 
 // ===== VENDOR MODAL =====
@@ -731,7 +764,7 @@ function initFilters() {
   document.getElementById('filter-key-vendor').addEventListener('change', applyKeyFilters);
   document.getElementById('filter-key-account').addEventListener('change', applyKeyFilters);
   document.getElementById('filter-status').addEventListener('change', applyKeyFilters);
-  document.getElementById('filter-project').addEventListener('keyup', applyKeyFilters);
+  document.getElementById('filter-project').addEventListener('change', applyKeyFilters);
 }
 
 function applyAccountFilters() {
@@ -750,7 +783,8 @@ function applyKeyFilters() {
   const vendor = document.getElementById('filter-key-vendor').value;
   const account = document.getElementById('filter-key-account').value;
   const status = document.getElementById('filter-status').value;
-  const project = document.getElementById('filter-project').value.toLowerCase();
+  const project = document.getElementById('filter-project').value;
+  const searchText = document.getElementById('key-search').value.toLowerCase();
 
   $.fn.dataTable.ext.search.push((settings, data, dataIndex) => {
     const row = keys[dataIndex];
@@ -759,7 +793,19 @@ function applyKeyFilters() {
     if (vendor && rowAccount && rowAccount.vendorId !== vendor) return false;
     if (account && row.accountId !== account) return false;
     if (status && row.status !== status) return false;
-    if (project && (!row.project || !row.project.toLowerCase().includes(project))) return false;
+    if (project && row.project !== project) return false;
+
+    if (searchText) {
+      const accountName = rowAccount ? rowAccount.accountName.toLowerCase() : '';
+      const keyName = (row.name || '').toLowerCase();
+      const keyProject = (row.project || '').toLowerCase();
+      const keyPurpose = (row.purpose || '').toLowerCase();
+      const accountNotes = rowAccount ? (rowAccount.notes || '').toLowerCase() : '';
+
+      const searchable = [accountName, keyName, keyProject, keyPurpose, accountNotes].join(' ');
+      if (!searchable.includes(searchText)) return false;
+    }
+
     return true;
   });
 
