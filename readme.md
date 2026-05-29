@@ -2,9 +2,13 @@
 
 A Node.js web application to track vendor accounts and API keys with encryption at rest.
 
-## Version
+## Version / Author / License
 
-v1.1.4
+| | |
+|---|---|
+| **Version** | v1.1.4 |
+| **Author** | Jorge Pereira (35sites.com LLC) — [35sites.com](https://35sites.com/) |
+| **License** | MIT |
 
 ## The Problem
 
@@ -240,10 +244,3 @@ Your data in the `data/` volume is preserved across rebuilds.
 | POST | /api/import | Import data |
 | GET | /api/export-zip | Export decrypted data + encryption key as zip |
 
-## License
-
-MIT
-
-## Author
-
-By Jorge Pereira (35sites.com LLC) - [35sites.com](https://35sites.com/)
