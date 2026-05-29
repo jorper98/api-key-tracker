@@ -316,6 +316,16 @@ table.dataTable tbody tr:nth-child(even) {
   background: var(--table-alt);
 }
 
+table.dataTable tbody a {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+table.dataTable tbody a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 .status-badge {
   padding: 0.2rem 0.5rem;
   border-radius: 12px;

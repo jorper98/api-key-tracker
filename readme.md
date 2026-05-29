@@ -6,26 +6,69 @@ A Node.js web application to track vendor accounts and API keys with encryption 
 
 v1.1.4
 
+## The Problem
+
+Managing API keys across multiple vendors, projects, and environments is a common pain point. Keys get scattered across spreadsheets, sticky notes, and plain text files. They get duplicated, lost, or worse — accidentally committed to public repositories.
+
+**API Key Tracker** solves this by providing a centralized, secure, and easy-to-use web application that:
+
+- Organizes your keys by **vendor → account → key** hierarchy
+- Encrypts all API keys at rest using AES-256-CBC
+- Keeps sensitive data out of version control
+- Supports multiple isolated key files for different projects or environments
+
+## Who Is This For?
+
+- **Developers** who work with multiple SaaS vendors and need to track API keys
+- **DevOps engineers** managing credentials across projects and environments
+- **Teams** that need a shared, searchable, and secure key registry
+- **Anyone** tired of losing API keys in spreadsheets or Slack messages
+
+## Screenshots
+
+![Vendors Tab](Screenshot01.jpg)
+*Vendors tab — manage your SaaS vendors*
+
+![Accounts Tab](Screenshot02.jpg)
+*Accounts tab — track vendor accounts and credentials*
+
+![Keys Tab](Screenshot03.jpg)
+*Keys tab — encrypted API key management*
+
+![Key Detail View](Screenshot04.jpg)
+*Key detail view — copy and manage individual keys*
+
 ## Features
 
-- **Three Normalized Tables**: Vendors, Accounts, and Keys
+- **Three Normalized Tables**: Vendors, Accounts, and Keys — keep your data organized
 - **Vendor Account Management**: CRUD operations for vendor accounts with auth type, billing setup, and notes
-- **API Key Management**: Track API keys linked to accounts with status, project, and purpose
-- **Multiple Keys Files**: Create, switch between, and manage multiple `<name>-keys.json` datasets
+- **API Key Management**: Track API keys linked to accounts with status, project, name, and purpose
+- **Multiple Keys Files**: Create, switch between, and manage multiple `<name>-keys.json` datasets (e.g., per project or environment)
 - **Per-File Encryption**: Each keys file has its own unique AES-256-CBC encryption key
-- **Search & Filter**: Full-text search across all fields, filter by vendor, account, status, and project
-- **One-Click Copy**: Copy button for all API keys
+- **Search & Filter**: Full-text search across Account, Project, Name, Purpose, and Notes — plus dropdown filters by vendor, account, status, and project
+- **One-Click Copy**: Copy button for all API keys with masked display by default
 - **Dark/Light Theme**: Toggle between dark and light mode (top right corner)
-- **Zip Export**: Export decrypted data and encryption key as a zip file for backup/migration
+- **Zip Export**: Export decrypted data and encryption key as a zip file for backup or migration
 
 ## Requirements
 
 - Node.js 16 or higher
+- Docker and Docker Compose (optional, for containerized deployment)
 
 ## Installation
 
+### Local
+
 ```bash
+git clone https://github.com/YOUR_USERNAME/api-key-tracker.git
+cd api-key-tracker
 npm install
+```
+
+### Docker
+
+```bash
+docker-compose up -d
 ```
 
 ## Usage
@@ -75,6 +118,30 @@ The `data/.secrets.json` file stores the unique AES-256 encryption key for each 
 **Security:** The `data/` directory is excluded from git via `.gitignore`, so `.secrets.json` is never committed to version control.
 
 **Important**: Always backup both your `.secrets.json` file and your keys files!
+
+## Data Fields
+
+### Vendors
+- Vendor Name
+- Website
+
+### Accounts
+- Account Name (auto-generated as "Vendor (email)" by default)
+- Vendor (dropdown)
+- Account Email
+- Vendor AccID (optional)
+- AuthType
+- Billing Setup
+- Notes
+
+### Keys
+- Status (Active/Inactive)
+- Account (dropdown)
+- Project (optional)
+- Name (optional)
+- Date Created
+- Purpose/Notes
+- API Key (encrypted at rest)
 
 ## Port Configuration
 
@@ -151,30 +218,6 @@ When you update the application code, rebuild and restart the container:
    ```
 
 Your data in the `data/` volume is preserved across rebuilds.
-
-## Docker Usage
-
-### Vendors
-- Vendor Name
-- Website
-
-### Accounts
-- Account Name (auto-generated as "Vendor (email)" by default)
-- Vendor (dropdown)
-- Account Email
-- Vendor AccID (optional)
-- AuthType
-- Billing Setup
-- Notes
-
-### Keys
-- Status (Active/Inactive)
-- Account (dropdown)
-- Project (optional)
-- Name (optional)
-- Date Created
-- Purpose/Notes
-- API Key (encrypted at rest)
 
 ## API Endpoints
 
