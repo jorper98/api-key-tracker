@@ -1,0 +1,397 @@
+<!-- API Key Tracker Landing Page – Self-Contained WordPress HTML Block -->
+<!-- Upload Screenshot01.jpg - Screenshot04.jpg to WordPress Media Library and update the URLs below -->
+
+<style>
+  .akt-landing {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+    line-height: 1.7;
+    color: #333;
+  }
+
+  .akt-landing * {
+    box-sizing: border-box;
+  }
+
+  .akt-landing a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+
+  .akt-landing a:hover {
+    text-decoration: underline;
+  }
+
+  /* Hero */
+  .akt-hero {
+    background: linear-gradient(135deg, #1a3a6a 0%, #2B6CB0 100%);
+    color: #fff;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .akt-hero-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .akt-hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+  }
+
+  .akt-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+
+  .akt-hero h1 span {
+    color: #fff;
+  }
+
+  .akt-hero-subtitle {
+    font-size: 1.1rem;
+    color: #fff !important;
+    margin-bottom: 2rem;
+  }
+
+  .akt-hero p {
+    color: #fff !important;
+  }
+
+  .akt-hero *,
+  .akt-hero p,
+  .akt-hero span,
+  .akt-hero div,
+  .akt-hero h1,
+  .akt-hero .akt-btn {
+    color: #fff !important;
+  }
+
+  .akt-hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .akt-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .akt-btn-primary {
+    background: #fff;
+    color: #2B6CB0;
+  }
+
+  .akt-btn-primary:hover {
+    background: #E1E1E1;
+    text-decoration: none;
+    color: #265E9A;
+  }
+
+  .akt-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .akt-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    color: #fff;
+  }
+
+  /* Content Sections */
+  .akt-section {
+    padding: 2rem 0;
+  }
+
+  .akt-section + .akt-section {
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .akt-landing h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #2B6CB0;
+    display: inline-block;
+  }
+
+  .akt-landing h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin: 2rem 0 0.75rem;
+  }
+
+  .akt-landing p {
+    margin-bottom: 1rem;
+    color: #555;
+  }
+
+  .akt-landing ul,
+  .akt-landing ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+    color: #555;
+  }
+
+  .akt-landing li {
+    margin-bottom: 0.5rem;
+  }
+
+  .akt-landing li strong {
+    color: #333;
+  }
+
+  .akt-landing code {
+    background: #f0f0f0;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #2B6CB0;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .akt-landing pre {
+    background: #1a2a4a;
+    color: #e8e8e8;
+    padding: 1.25rem 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .akt-landing pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  /* Screenshots Grid */
+  .akt-screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .akt-screenshot-card {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+  }
+
+  .akt-screenshot-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+  }
+
+  .akt-screenshot-card img {
+    width: 100%;
+    display: block;
+    height: auto;
+  }
+
+  .akt-screenshot-caption {
+    padding: 0.75rem 1rem;
+    background: #f9f9f9;
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  /* Download Box */
+  .akt-download-box {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .akt-download-box h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .akt-download-box .akt-btn {
+    margin-top: 1rem;
+  }
+
+  /* Contact Section */
+  .akt-contact {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .akt-hero h1 {
+      font-size: 2rem;
+    }
+
+    .akt-hero-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .akt-screenshots-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="akt-landing">
+
+  <!-- Hero -->
+  <div class="akt-hero">
+    <div class="akt-hero-inner">
+      <div class="akt-hero-badge" style="color:#fff !important;">A Self-Hosted Application</div>
+      <h1 style="color:#fff !important;">API <span style="color:#fff !important;">Key</span> Tracker</h1>
+      <p class="akt-hero-subtitle" style="color:#fff !important;">Centralize, encrypt, and manage all your vendor API keys in one beautiful, secure dashboard. No more spreadsheets. No more chaos.</p>
+      <div class="akt-hero-buttons">
+        <a href="https://github.com/jorper98/api-key-tracker" class="akt-btn akt-btn-primary" target="_blank" rel="noopener" style="background:#fff !important; color:#2B6CB0 !important;">View on GitHub</a>
+        <a href="#akt-screenshots" class="akt-btn akt-btn-secondary" style="background:rgba(255,255,255,0.1) !important; color:#fff !important; border:1px solid rgba(255,255,255,0.4) !important;">See Screenshots</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="akt-section">
+    <h2>API Key Tracker</h2>
+    <p><strong>A Node.js Web Application</strong></p>
+    <p>For more applications, please check my <a href="https://35sites.com/applications/">Applications Page</a>.</p>
+
+    <p>API Key Tracker automatically encrypts and organizes all your vendor API keys into a secure, searchable dashboard. By linking vendors to accounts and accounts to individual keys, you can manage your entire API infrastructure from a single, self-hosted application with AES-256-CBC encryption at rest.</p>
+
+    <h3>Features</h3>
+    <ul>
+      <li><strong>Targeted Organization</strong>: Vendors → Accounts → Keys — a clean, normalized hierarchy that scales.</li>
+      <li><strong>AES-256 Encryption</strong>: Every API key is encrypted at rest. Each keys file gets its own unique encryption key.</li>
+      <li><strong>Flexible Key Files</strong>: Create, switch between, and manage multiple key file datasets — perfect for different projects or environments.</li>
+      <li><strong>Instant Search &amp; Filter</strong>: Full-text search across accounts, projects, names, purposes, and notes. Dropdown filters for vendor, account, status, and project.</li>
+      <li><strong>Intuitive Interface</strong>: Clean, tabbed layout with DataTables-powered sorting, pagination, and one-click copy.</li>
+      <li><strong>Efficient</strong>: Lightweight Node.js + Express server with file-based storage — no database required.</li>
+      <li><strong>Docker Ready</strong>: Includes Dockerfile and docker-compose.yml for one-command deployment.</li>
+      <li><strong>Dark/Light Theme</strong>: Toggle between dark and light mode with preference saved automatically.</li>
+      <li><strong>Zip Export</strong>: Export decrypted data and encryption key as a zip file for backup or migration.</li>
+    </ul>
+
+    <h3>Installation</h3>
+    <ol>
+      <li><strong>Clone:</strong> Clone the repository from GitHub:
+        <pre><code>git clone https://github.com/jorper98/api-key-tracker.git
+cd api-key-tracker</code></pre>
+      </li>
+      <li><strong>Install:</strong> Run <code>npm install</code> to install dependencies.</li>
+      <li><strong>Start:</strong> Run <code>node server.js</code> and open <code>http://localhost:3000</code> in your browser.</li>
+    </ol>
+
+    <p><strong>Or with Docker:</strong></p>
+    <pre><code>docker-compose up -d</code></pre>
+
+    <h3>Use Cases</h3>
+    <ul>
+      <li><strong>Developer Tooling</strong>: Keep all your SaaS API keys organized and encrypted in one place.</li>
+      <li><strong>Multi-Project Management</strong>: Separate key files per project or environment (dev, staging, production).</li>
+      <li><strong>Team Collaboration</strong>: Share a centralized key registry instead of sending keys over Slack or email.</li>
+      <li><strong>Security Compliance</strong>: Ensure keys are encrypted at rest and never stored in plain text or version control.</li>
+      <li><strong>Freelancer Dashboard</strong>: Manage client API keys across multiple vendors and accounts with full traceability.</li>
+      <li><strong>DevOps &amp; Infrastructure</strong>: Track which keys belong to which accounts and vendors for audit purposes.</li>
+      <li><strong>Onboarding/Offboarding</strong>: Quickly see which keys are active, inactive, or need rotation when team members change.</li>
+      <li><strong>Backup &amp; Migration</strong>: Export your entire key database with encryption keys for safe backup or transfer.</li>
+    </ul>
+
+    <h3>Usage</h3>
+    <ul>
+      <li>Open the application in your browser at <code>http://localhost:3000</code>.</li>
+      <li><strong>Vendors tab</strong>: Add and manage your SaaS vendor relationships.</li>
+      <li><strong>Accounts tab</strong>: Create vendor accounts with email, auth type, billing status, and notes.</li>
+      <li><strong>Keys tab</strong>: Add API keys linked to accounts with status, project, name, purpose, and encrypted storage.</li>
+      <li>Use the search bar and dropdown filters to quickly find any key or account.</li>
+      <li>Click the eye icon to reveal a key, or the copy icon to copy it to your clipboard.</li>
+      <li>Create multiple key files from the header dropdown to isolate different projects.</li>
+    </ul>
+  </div>
+
+  <!-- Screenshots -->
+  <div class="akt-section" id="akt-screenshots">
+    <h2>Screenshots</h2>
+    <div class="akt-screenshots-grid">
+      <div class="akt-screenshot-card">
+        <img src="https://35sites.com/wp-content/uploads/2026/05/Screenshot01.jpg" alt="Vendors Tab">
+        <div class="akt-screenshot-caption">Vendors Tab — Manage all your SaaS vendor relationships in one place.</div>
+      </div>
+      <div class="akt-screenshot-card">
+        <img src="https://35sites.com/wp-content/uploads/2026/05/Screenshot02.jpg" alt="Accounts Tab">
+        <div class="akt-screenshot-caption">Accounts Tab — Track vendor accounts with email, auth type, and billing status.</div>
+      </div>
+      <div class="akt-screenshot-card">
+        <img src="https://35sites.com/wp-content/uploads/2026/05/Screenshot03.jpg" alt="Keys Tab">
+        <div class="akt-screenshot-caption">Keys Tab — Encrypted API key management with instant search and filtering.</div>
+      </div>
+      <div class="akt-screenshot-card">
+        <img src="https://35sites.com/wp-content/uploads/2026/05/Screenshot04.jpg" alt="Key Detail View">
+        <div class="akt-screenshot-caption">Key Detail View — Reveal and copy individual keys with one click.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download / GitHub -->
+  <div class="akt-section">
+    <h2>Get the Application</h2>
+    <p>API Key Tracker is free and open source under the MIT License. Clone the repository, install dependencies, and start managing your keys today.</p>
+
+    <div class="akt-download-box">
+      <h3>Latest Version: v1.1.4</h3>
+      <p>Available on GitHub — ready to clone and run locally or via Docker.</p>
+      <a href="https://github.com/jorper98/api-key-tracker" class="akt-btn akt-btn-primary" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+
+    <p>If you prefer, you can look at the code on <a href="https://github.com/jorper98/api-key-tracker" target="_blank" rel="noopener">GitHub Here</a>.</p>
+
+    <h3>License</h3>
+    <p>This application is licensed under the MIT License.</p>
+  </div>
+
+  <!-- Contact -->
+  <div class="akt-contact">
+    <h2>Contact Us</h2>
+    <h3>Let's Get in Touch</h3>
+    <p>No matter where you are, we are here to help! We can handle all aspects of your online presence!</p>
+    Email: <a href="mailto:website.inquiry@35sites.com">website.inquiry@35sites.com</a></p>
+  </div>
+
+</div>
